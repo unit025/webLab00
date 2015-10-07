@@ -15,7 +15,7 @@ h1 {
 	margin-right: 15%;
 }
 
-#overall {
+body {
 	background-image: url("http://selab.hanyang.ac.kr/courses/cse326/2015/problems/images/3/blueTextureBG.jpg");
 }
 
@@ -24,7 +24,7 @@ h1 {
 	background-color: #8E8E8E;
 }
 
-.article {
+#article h2 {
 	border-bottom:2px dashed blue;
 	text-align: right;
 }
