@@ -1,0 +1,118 @@
+Ex 1.
+CREATE TABLE student(
+	student_id INTEGER NOT NULL PRIMARY KEY,
+	name VARCHAR(10) NOT NULL,
+	year TINYINT NOT NULL DEFAULT "1",
+	dept_no INTEGER NOT NULL,
+	major VARCHAR(20)
+);
+CREATE TABLE department(
+	dept_no INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	dept_name VARCHAR(20) NOT NULL UNIQUE,
+	office VARCHAR(20) NOT NULL,
+	office_tel VARCHAR(13)
+);
+
+ALTER TABLE student CHANGE COLUMN major major VARCHAR(40);
+ALTER TABLE student ADD COLUMN gender VARCHAR(10);
+ALTER TABLE department CHANGE COLUMN dept_name dept_name VARCHAR(40) NOT NULL;
+ALTER TABLE department CHANGE COLUMN office office VARCHAR(30) NOT NULL;
+
+Ex 2.
+INSERT INTO student(student_id, name, year, dept_no, major) VALUES (20070002, 'James Bond', 3, 4, 'Business Administration'), (20060001, 'Queenie', 4, 4, 'Business Administration'), (20030001, 'Reonardo', 4, 2, 'Electronic Engineering'), (20040003, 'Julia', 3, 2, 'Electronic Engineering'), (20060002, 'Roosevelt', 3, 1, 'Computer Science'), (20100002, 'Fearne', 3, 4, 'Business Administration'), (20110001, 'Chloe', 2, 1, 'Computer Science'), (20080003, 'Amy', 4, 3, 'Law'), (20040002, 'Selina', 4, 5, 'English Literature'), (20070001, 'Ellen', 4, 4, 'Business Administration'), (20100001, 'Kathy', 3, 4, 'Business Administration'), (20110002, 'Lucy', 2, 2, 'Electronic Engineering'), (20030002, 'Michelle', 5, 1, 'Computer Science'), (20070003, 'April', 4, 3, 'Law'), (20070005, 'Alicia', 2, 5, 'English Literature'), (20100003, 'Yullia', 3, 1, 'Computer Science'), (20070007, 'Ashlee', 2, 4, 'Business Administration')
+
+INSERT INTO department(dept_name, office, office_tel) VALUES ('Computer Science', 'Engineering building', '02-3290-0123'), ('Electronic Engineering', 'Engineering building', '02-3290-2345'), ('Law', 'Law building', '02-3290-7896'), ( 'Business Administration', 'Administration building', '02-3290-1112'), ('English Literature', 'Literature building', '02-3290-4412');
+
+Ex 3.
+1. UPDATE department SET dept_name='Electronic and Electrical Engineering' WHERE dept_name = 'Electronic engineering';
+2. insert into department(dept_name, office, office_tel) VALUES ('Education', 'Education Building', '02-3290-2347');
+3. update student set dept_no = 6, major = 'Education' where name = 'Chloe';
+4. delete from student where name = 'Michelle';
+5. delete from student where name = 'Fearne';
+
+Ex 4.
+1. select * from student where major = 'Computer Science';
+2. select student_id, year, major from student;
+3. select * from student where year = '3';
+4. select * from student where year = '1' or year = '2';
+5. select * from student s 
+join department d on d.dept_no = s.dept_no 
+where major = 'Business Administration';
+
+Ex 5.
+select * from student where student_id LIKE '%2007%';
+select * from student order by student_id;
+select major from student group by major having avg(year) > 3;
+select * from student where major='Business Administration' and student_id LIKE '%2007%' LIMIT 2;
+
+Ex 6.
+/Applications/MAMP/Library/bin/mysql --host=localhost -uroot -proot
+create database world;
+exit
+/Applications/MAMP/Library/bin/mysql --host=localhost -uroot -proot world < /Users/apple/desktop/world.sql
+
+1. select name, language from countries join languages on code = country_code where independence_year = '1948';
+2. select name 
+from countries 
+join languages l1 on code = l1.country_code 
+join languages l2 on code = l2.country_code 
+where l1.language='English' and l1.official='T' 
+and l2.language='French' and l2.official='T';
+3. select language
+from languages
+join countries on code=country_code
+where life_expectancy>75
+group by language
+order by count(language) desc
+limit 5;
+4. select capital 
+from countries 
+join languages l1 on code=l1.country_code 
+join languages l2 on code=l2.country_code 
+where l1.language='Korean' and l2.language='English';
+5. select capital 
+from countries
+join languages on code=country_code
+where official = 'T'
+group by language
+having sum(percentage) > 20 and sum(percentage) < 50; 
+6. 
+select c.name from countries c join cities c2 on c2.country_code = c.code group by c.name order by avg(c2.population) desc limit 5;
+
+
+Ex 7.
+1. SELECT r.role 
+FROM roles r
+JOIN movies m ON r.movie_id = m.id
+WHERE m.name = 'Pi';
+
+2. SELECT DISTINCT a.first_name, a.last_name
+FROM actors a
+JOIN roles r ON a.id = r.actor_id
+JOIN movies m ON m.id = r.movie_id
+GROUP BY a.id
+HAVING count(a.id) > any (select count(a.id) FROM actors a
+JOIN roles r ON a.id = r.actor_id
+JOIN movies m ON m.id = r.movie_id
+GROUP BY a.id)
+ORDER BY count(a.id) DESC
+LIMIT 7;
+
+3. SELECT d.first_name, d.last_name
+FROM directors d
+JOIN movies_directors md ON d.id=md.director_id
+JOIN movies m ON m.id = md.movie_id
+GROUP BY d.id
+HAVING avg(m.rank) > ANY (SELECT avg(m.rank) FROM directors d
+JOIN movies_directors md ON d.id=md.director_id
+JOIN movies m ON m.id = md.movie_id
+GROUP BY d.id )
+ORDER BY avg(m.rank) DESC
+LIMIT 3;
+
+
+
+
+
+
+ 
