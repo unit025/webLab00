@@ -77,8 +77,14 @@ where official = 'T'
 group by language
 having sum(percentage) > 20 and sum(percentage) < 50; 
 6. 
-select c.name from countries c join cities c2 on c2.country_code = c.code group by c.name order by avg(c2.population) desc limit 5;
-
+select sum(surface_area) 
+from countries c1 
+join (select c.name 
+from countries c 
+join cities c2 on c2.country_code = c.code 
+group by c.name 
+order by avg(c2.population) desc limit 5) c2 
+where c1.name = c2.name;
 
 Ex 7.
 1. SELECT r.role 
