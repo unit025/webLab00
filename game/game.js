@@ -23,7 +23,7 @@ function stopGame(){
 	targetBlocks = [];
 	selectedBlocks = [];
 	var blocks = $$(".block");
-	for (var i = 0; i < numberOfBlocks.length; i++) {
+	for (var i = 0; i < numberOfBlocks; i++) {
 		blocks[i].removeClassName("target");
 		blocks[i].removeClassName("selected");
 		blocks[i].stopObserving("click");
